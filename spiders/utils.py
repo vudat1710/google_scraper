@@ -1,4 +1,5 @@
 import json
+from tldextract import extract
 
 def load_proxies(filename, newpath):
     proxies = json.load(open(filename, "r"))
@@ -17,13 +18,6 @@ def check_crawled_url(url, keyword):
             url = url.split("›")[0].strip()
         else:
             url = url.strip()
-        if "http" in url:
-            url = url.split("://")[1]
-            if "www" in url:
-                dn = url.split(".")[1]
-            else:
-                dn = url.split(".")[0]
-        else:
-            dn = url.split(".")[0]
-        return (dn in keyword or dn == "wikipedia"), url
+        _, dn, _ = extract(url)
+        return (dn in keyword or keyword in dn or dn == "wikipedia"), url
     else: return False, ""

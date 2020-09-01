@@ -25,7 +25,6 @@ class GoogleSearchSpider(CrawlSpider):
         return Request(url, self.parse, dont_filter=True)
 
     def parse(self, response):
-        # print(request.meta)
         selectors = response.xpath('//div[@class="ZINbbc xpd O9g5cc uUPGi"]')
         keyword = response.url.split("?q=")[1]
         for selector in selectors:
